@@ -1,7 +1,7 @@
 # Selenium: automation of browser
 from selenium import webdriver
 # from webdriver_manager.chrome import ChromeDriverManager
-import undetected_chromedriver.v2 as uc
+import undetected_chromedriver as uc
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -86,7 +86,7 @@ class Session:
                 os.mkdir(user_data)
 
             Path(f'{user_data}First Run').touch()
-            options.add_argument(f"--user-data-dir={user_data}")
+            # options.add_argument(f"--user-data-dir={user_data}")
 
         #options.add_argument("--start-maximized")
         options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
@@ -110,9 +110,20 @@ class Session:
             else:
                 options.add_argument(f'--proxy-server=http://{proxy}')
 
-        # Getting the chromedriver from cache or download it from internet
+
+        # Create an undetected_chromedriver options instance
+
+        # Add headless and no-sandbox options (useful for running in headless mode)
+        options.add_argument("--headless")
+        # options.add_argument("--no-sandbox")
+        # You can add additional Selenium code to interact with the website as needed
         print("Getting ChromeDriver ...")
-        self.browser = uc.Chrome(options=options)  # ChromeDriverManager().install(),
+        print("This may take a while ...")
+        # print options
+        print(options.arguments)
+        self.browser = uc.Chrome(options=options, version_main=116)  # ChromeDriverManager().install(),
+        # self.browser = uc.Chrome(options=options)  # ChromeDriverManager().install(),
+        print("ChromeDriver obtained.")
         # self.browser = webdriver.Chrome(options=options)
         # self.browser.set_window_size(1250, 750)
 
